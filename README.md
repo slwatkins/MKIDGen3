@@ -15,7 +15,7 @@ pip install -e '.[client,plotting]'
 ```
 
 ### Build the Bitstream
-See the instructions in [https://github.com/MazinLab/gen3-vivado-top/blob/main/README.md](the firmware repo)
+See the instructions in [the firmware repo](https://github.com/MazinLab/gen3-vivado-top/blob/main/README.md)
 
 ### Board Install
 
