@@ -1,4 +1,5 @@
 from logging import getLogger
+from ._version import version as __version__
 
 try:
     import pynq

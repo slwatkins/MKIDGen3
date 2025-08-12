@@ -133,3 +133,9 @@ mkidgen3/resources
 
 # Mac Cahced Files
 .DS_Store
+
+# version file
+mkidgen3/_version.py
+
+
+
