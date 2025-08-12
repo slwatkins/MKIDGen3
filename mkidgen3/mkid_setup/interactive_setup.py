@@ -4,7 +4,7 @@ import pickle
 import numpy as np
 
 from dataclasses import dataclass, field
-from typing import Optional, Any
+from typing import Optional, Any, Union
 
 
 from mkidgen3.server.waveform import SimpleFreqlistWaveform
@@ -100,7 +100,7 @@ class MKIDSetup:
     waveform: SimpleFreqlistWaveform
     bin_settings: list[list[BinConfig]]
     darks: list[list[IQCapture]] = field(default_factory=list)
-    lights: list[dict[float | str, list[IQCapture]]] = field(default_factory=list)
+    lights: list[dict[Union[float, str], list[IQCapture]]] = field(default_factory=list)
     powersweep: Optional[PowerSweep] = None
     biassweep: Optional[Sweep] = None
     centeringsweeps: list[Sweep] = field(default_factory=list)

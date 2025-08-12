@@ -7,7 +7,7 @@ import hdf5plugin
 import numpy as np
 import numpy.typing as nt
 
-from typing import Optional
+from typing import Optional, Union
 
 TABLE_TYPE = np.dtype(
     [("resID", "<u4"), ("time", "<u4"), ("wavelength", "<f4"), ("weight", "<f4")]
@@ -39,7 +39,7 @@ DEFAULT_FLAGS = (
 )
 
 
-def _pyts(s: str | bytes | h5py.Empty):
+def _pyts(s: Union[str,bytes,h5py.Empty]):
     if not s:
         return h5py.Empty("S1")
     if type(s) is bytes:
@@ -85,7 +85,7 @@ class TableWriter:
     def __init__(
         self,
         filename: str,
-        wavelength_bounds: tuple[np.int64 | int, np.int64 | int],
+        wavelength_bounds: tuple[Union[np.int64, int], Union[np.int64, int]],
         compress_kwargs=hdf5plugin.Blosc(),
     ):
         self._resize_lock = multiprocessing.Lock()
@@ -142,7 +142,7 @@ class TableWriter:
         _pytable_compat(flag, b"flag map", b"ARRAY")
         return self
 
-    def with_start_time(self, t: Optional[np.int64 | int] = None):
+    def with_start_time(self, t: Optional[Union[np.int64, int]] = None):
         if t is None:
             import time
 
@@ -151,7 +151,7 @@ class TableWriter:
         self._pt.attrs["UNIXSTR"] = t
         return self
 
-    def with_end_time(self, t: Optional[np.int64 | int] = None):
+    def with_end_time(self, t: Optional[Union[np.int64, int]] = None):
         if t is None:
             import time
 
@@ -165,7 +165,7 @@ class TableWriter:
             self._pt.attrs["EXPTIME"] = t - self._pt.attrs["UNIXSTR"]
         return self
 
-    def with_exposure_time(self, t: np.int64 | int):
+    def with_exposure_time(self, t: Union[np.int64, int]):
         self._pt.attrs["EXPTIME"] = np.int64(t)
         return self
 
@@ -176,11 +176,11 @@ class TableWriter:
         self._pt.attrs["flags"] = pick
         return self
 
-    def with_energy_resolution(self, resolution: float | np.float64 = 0.1):
+    def with_energy_resolution(self, resolution: Union[float, np.float64] = 0.1):
         self._pt.attrs["energy_resolution"] = np.float64(resolution)
         return self
 
-    def with_dead_time(self, dead_time: int | np.int64 = 0):
+    def with_dead_time(self, dead_time: Union[int, np.int64] = 0):
         self._pt.attrs["dead_time"] = np.int64(dead_time)
         return self
 

@@ -4,7 +4,7 @@ import numpy as np
 import numpy.typing as nt
 import scipy.optimize as opt
 
-from typing import Optional, Callable
+from typing import Optional, Callable, Union
 
 from mkidgen3.server.feedline_config import DDCConfig
 from mkidgen3.drivers.ddc import ThreepartDDC
@@ -142,7 +142,7 @@ def quantize_rotation(rotation, bits=8):
 
 def rotate_and_center(
     sweep: Sweep,
-    targets: Optional[list[float] | nt.NDArray[np.float64]] = None,
+    targets: Optional[Union[list[float], nt.NDArray[np.float64]]] = None,
     fit: Optional[Callable[..., nt.NDArray[np.float64]]] = None,
     program: Optional[ThreepartDDC] = None,
     plot: bool = False,

@@ -4,7 +4,7 @@ import copy
 import numpy as np
 import numpy.typing as nt
 
-from typing import Optional, Type, NewType
+from typing import Optional, Type, NewType, Union
 from types import NoneType
 from dataclasses import dataclass
 from abc import ABC
@@ -29,7 +29,7 @@ def attens_to_refered(attens: tuple[OutputAtten, InputAtten]) -> AttenRefered:
 
 
 # Assumes data is field quantity
-def apply_gain(data: nt.NDArray[np.float64 | np.complex64], gain: Type[Gain]):
+def apply_gain(data: nt.NDArray[Union[np.float64, np.complex64]], gain: Type[Gain]):
     return data * np.sqrt(10 ** (gain / 10))
 
 
@@ -37,7 +37,7 @@ def apply_gain(data: nt.NDArray[np.float64 | np.complex64], gain: Type[Gain]):
 class SweepConfig:
     steps: nt.NDArray[np.float64]
     waveform: WaveformConfig
-    lo_center: float | np.float64 = 6000.0
+    lo_center: Union[float, np.float64] = 6000.0
     average: int = 1024
     attens: Optional[tuple[OutputAtten, InputAtten]] = None
     tap: str = "ddciq"
@@ -49,10 +49,10 @@ class SweepConfig:
     @classmethod
     def from_bandwidth(
         cls,
-        bandwidth: float | np.float64,
+        bandwidth: Union[float, np.float64],
         points: int,
         waveform: WaveformConfig,
-        lo_center: float | np.float64 = 6000.0,
+        lo_center: Union[float, np.float64] = 6000.0,
         average: int = 1024,
         attens: Optional[tuple[OutputAtten, InputAtten]] = None,
     ) -> "SweepConfig":
@@ -201,7 +201,7 @@ class CombSweepConfig(SweepConfig):
         points: int,
         overlap: int,
         waveform: WaveformConfig,
-        lo_center: float | np.float64 = 6000.0,
+        lo_center: Union[float, np.float64] = 6000.0,
         average: int = 1024,
         attens: Optional[tuple[OutputAtten, InputAtten]] = None,
     ) -> "SweepConfig":
@@ -246,7 +246,7 @@ class Sweep(AbstractSweep):
         self,
         ax,
         stacked: bool = False,
-        newtones: Optional[list[float] | nt.NDArray[np.float64]] = None,
+        newtones: Optional[Union[list[float], nt.NDArray[np.float64]]] = None,
         channels: Optional[slice] = None,
         label_tones: bool = False,
         power: bool = True,
@@ -288,7 +288,7 @@ class Sweep(AbstractSweep):
         ax.set_ylabel("S21 (Magnitude)" if not power else "S21 (Power [dB])")
         ax.set_xlabel("Frequency (MHz)")
 
-    def plot_loops(self, ax, channels: Optional[slice] = None, newtones: Optional[list[float] | nt.NDArray[np.float64]] = None, **kwargs):
+    def plot_loops(self, ax, channels: Optional[slice] = None, newtones: Optional[Union[list[float], nt.NDArray[np.float64]]] = None, **kwargs):
         if channels is None:
             channels = slice(0, self.iq.shape[0])
         for i in range(self.iq[channels, :].shape[0]):

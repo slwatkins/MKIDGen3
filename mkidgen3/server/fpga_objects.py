@@ -20,13 +20,16 @@ import pynq
 import time
 import numpy as np
 from mkidgen3.mkidpynq import unpack_photons
+from typing import Union
+
+
 DEFAULT_BIT_FILE = '/home/xilinx/gen3_top_final.bit'
 
 
 class FeedlineHardware:
     def __init__(self, bitstream=DEFAULT_BIT_FILE, rfdcclock='4.096GSPS_MTS_dualloop', if_port='dev/ifboard',
                  ignore_version=False,
-                 program_clock=True, rfdc: RFDCConfig | None = None, download=False, clock_source='external'):
+                 program_clock=True, rfdc: Union[RFDCConfig,None] = None, download=False, clock_source='external'):
         """
 
         Args:

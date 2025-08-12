@@ -15,6 +15,7 @@ import threading
 from mkidgen3.util import setup_logging
 from datetime import datetime
 import argparse
+from typing import Union
 
 COMMAND_LIST = ('reset', 'capture', 'bequiet', 'status')
 
@@ -80,7 +81,7 @@ class FeedlineReadoutServer:
     def _pending_captures(self):
         return tuple([cr.id for cr in self._checked+self._to_check])
 
-    def _abort_all(self, join=False, reason='Abort all', raisezmqerror=True, also:tuple|list|CaptureRequest=tuple()):
+    def _abort_all(self, join=False, reason='Abort all', raisezmqerror=True, also: Union[tuple, list, CaptureRequest] =tuple()):
         toabort=self._checked + self._to_check
         if isinstance(also, CaptureRequest):
             also = [also]

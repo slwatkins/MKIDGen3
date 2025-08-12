@@ -6,7 +6,7 @@ import time
 import numpy as np
 
 from logging import getLogger
-from typing import Tuple, List, Optional
+from typing import Tuple, List, Optional, Union
 from enum import IntFlag, auto
 from secrets import token_bytes
 from dataclasses import dataclass
@@ -427,7 +427,7 @@ class TRFDividerConfig:
     nint: int
     nfrac: int
     prsc_sel: int
-    f_ref: int | Fraction
+    f_ref: Union[int, Fraction]
     
     def __post_init__(self):
         self.validate(False)
@@ -545,7 +545,7 @@ class TRFDividerConfig:
         return 0b1000 - round(math.log2(n))
 
     @classmethod
-    def from_target(cls, freq_unscaled: float | Fraction, f_ref: int | Fraction = 10) -> "TRFDividerConfig":
+    def from_target(cls, freq_unscaled: Union[float, Fraction], f_ref: Union[int, Fraction] = 10) -> "TRFDividerConfig":
         if freq_unscaled is float:
             freq = Fraction(freq_unscaled)
         else:
@@ -635,7 +635,7 @@ class TRF3765:
         self.f_ref = f_ref
         self.outputs = outputs
 
-    def set_output(self, frequency: float | Fraction | TRFCalibrationCertificate, wait_for_lock: bool = True, fractional: Optional[bool] = None):
+    def set_output(self, frequency: Union[float, Fraction, TRFCalibrationCertificate], wait_for_lock: bool = True, fractional: Optional[bool] = None):
         if isinstance(frequency, TRFCalibrationCertificate):
             if frequency.token != self.__token:
                 raise ValueError("Calibration certificate is not for this LO")

@@ -11,7 +11,7 @@ from mkidgen3.power_sweep_helpers import *
 from mkidgen3.opfb import opfb_bin_number
 import numpy as np
 from mkidgen3.util import setup_logging
-from typing import Iterable
+from typing import Iterable, Union
 setup_logging('feedlineclient')
 import threading
 # ctx = zmq.Context.instance()
@@ -97,7 +97,7 @@ class PowerSweepJob:
     """
     This class is responsible for gathering power seep data.
     """
-    def __init__(self, lo_sweep_freqs: Iterable[float | int], attns: list[tuple[float | int, float | int]], fc: FeedlineConfig, iq_avg: int = 1024, server=None, save_as=None):
+    def __init__(self, lo_sweep_freqs: Iterable[Union[float, int]], attns: list[tuple[Union[float, int], Union[float, int]]], fc: FeedlineConfig, iq_avg: int = 1024, server=None, save_as=None):
         self.lo_sweep_freqs = lo_sweep_freqs
         self.attns = attns
         self.iq_avg = iq_avg

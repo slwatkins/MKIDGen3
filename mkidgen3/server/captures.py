@@ -6,7 +6,7 @@ import numpy as np
 import zmq
 from typing import Iterable
 import blosc2
-from typing import List
+from typing import List, Union
 from npy_append_array import NpyAppendArray
 from logging import getLogger
 from datetime import datetime
@@ -120,8 +120,8 @@ class CaptureRequest:
         return True
 
     def __init__(self, n: int, tap: str, feedline_config: FeedlineConfig,
-                 feedline_server: FRSClient, channels: Iterable | int | None = None, file: str = None,
-                 fail_saturation_frac: None | float | int = None, numpy_metric: None | str = None,
+                 feedline_server: FRSClient, channels: Union[Iterable, int, None] = None, file: str = None,
+                 fail_saturation_frac: Union[None,float,int] = None, numpy_metric: Union[None, str] = None,
                  _compression_override: bool = None):
         """
 

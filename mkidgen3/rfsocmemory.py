@@ -1,13 +1,13 @@
 import psutil
 import blosc2
 from mkidgen3.system_parameters import PL_TOTAL_BYTES, SYSTEM_OVERHEAD_BYTES, COMPRESSION_OVERHEAD_BYTES
-
+from typing import Union
 
 def memfree_mib():
     return psutil.virtual_memory().available//1024**2
 
 
-def determine_max_chunk(domain: str, assume_compression=False, demands: list | tuple | None = None) -> int:
+def determine_max_chunk(domain: str, assume_compression=False, demands: Union[list, tuple, None] = None) -> int:
     """
     Attempt to estimate how big of a chunk of memory can be allocated w/o swapping.
 

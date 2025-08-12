@@ -4,6 +4,7 @@ import numpy as np
 import numpy.typing as nt
 import platform
 import matplotlib.pyplot as plt
+from typing import Union
 
 from mkidgen3.system_parameters import (ADC_DAC_INTERFACE_WORD_LENGTH, DAC_RESOLUTION, DAC_SAMPLE_RATE, SYSTEM_BANDWIDTH,
                                         DAC_FREQ_RES, DAC_FREQ_MAX, DAC_FREQ_MIN)
@@ -110,10 +111,10 @@ class SimpleFreqlistWaveform(Waveform):
 
 
 class FreqlistWaveform(Waveform):
-    def __init__(self, frequencies: Iterable[int | float] = None, n_samples: int = DAC_LUT_SIZE,
-                 sample_rate: int | float = DAC_SAMPLE_RATE, amplitudes: Iterable[int | float] = None,
-                 phases: Iterable[int | float] = None, iq_ratios: Iterable[int | float] = None,
-                 phase_offsets: Iterable[int | float] = None, seed: int = 2, dac_dynamic_range: float = 1.0,
+    def __init__(self, frequencies: Iterable[Union[int, float]] = None, n_samples: int = DAC_LUT_SIZE,
+                 sample_rate: Union[int, float] = DAC_SAMPLE_RATE, amplitudes: Iterable[Union[int, float]] = None,
+                 phases: Iterable[Union[int, float]] = None, iq_ratios: Iterable[Union[int, float]] = None,
+                 phase_offsets: Iterable[Union[int, float]] = None, seed: int = 2, dac_dynamic_range: float = 1.0,
                  optimize_phase: bool = True, compute: bool = False):
         """
         Args:
@@ -208,7 +209,7 @@ class FreqlistWaveform(Waveform):
                                             max_attempts=3)
         return self.quant_vals
 
-    def _compute_waveform(self, phases: Iterable | None = None) -> nt.NDArray[np.complex64]:
+    def _compute_waveform(self, phases: Union[Iterable, None] = None) -> nt.NDArray[np.complex64]:
         """
         Compute the raw waveform with no scaling or casting.
         Args:
@@ -247,7 +248,7 @@ class FreqlistWaveform(Waveform):
         return iq
 
     def _optimize_random_phase(self,
-                               max_quant_err: float | int = 1 * predict_quantization_error(resolution=DAC_RESOLUTION),
+                               max_quant_err: Union[float, int] = 1 * predict_quantization_error(resolution=DAC_RESOLUTION),
                                max_attempts: int = 3) -> None:
         """
         Regenerate random phases, waveform values, and quantized values if quantization error is too high.

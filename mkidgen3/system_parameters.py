@@ -1,5 +1,5 @@
 import numpy as np
-from typing import Iterable
+from typing import Iterable, Union
 
 DAC_MAX_OUTPUT_DBM = 1  # [dBm] see Xilinx DS926
 DAC_MAX_INT = 8191  # see PG269 p.219
@@ -52,7 +52,7 @@ PHOTON_POSTAGE_WINDOW_LENGTH = 127  # Must be 1 less than the HLS value, this is
 from mkidgen3.equipment_drivers.ifboard import MAX_IN_ATTEN, IF_ATTN_STEP, MAX_OUT_ATTEN
 
 
-def channel_to_iqgroup(channels: Iterable | int) -> set:
+def channel_to_iqgroup(channels: Union[Iterable, int]) -> set:
     """
     Convert channels to IQ groups which contains those channels.
     Args:
@@ -67,7 +67,7 @@ def channel_to_iqgroup(channels: Iterable | int) -> set:
         return {channels//8}
 
 
-def iqgroup_to_channel(iq_group: Iterable | int) -> set:
+def iqgroup_to_channel(iq_group: Union[Iterable, int]) -> set:
     """
     Convert IQ groups to channels.
     Args:
@@ -84,7 +84,7 @@ def iqgroup_to_channel(iq_group: Iterable | int) -> set:
         return set((np.arange(chan_per_group)+(iq_group*chan_per_group)[:, np.newaxis]).flatten())
 
 
-def channel_to_phasegroup(channels: Iterable | int) -> set:
+def channel_to_phasegroup(channels: Union[Iterable, int]) -> set:
     """
     Convert phase channels to IQ groups which contains those channels.
     Args:
@@ -99,7 +99,7 @@ def channel_to_phasegroup(channels: Iterable | int) -> set:
         return {channels//16}
 
 
-def phasegroup_to_channel(phase_group: Iterable | int) -> set:
+def phasegroup_to_channel(phase_group: Union[Iterable, int]) -> set:
     """
     Convert phase groups to channels.
     Args:

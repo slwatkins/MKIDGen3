@@ -1,6 +1,6 @@
 import enum
 
-from typing import Type, Optional
+from typing import Type, Optional, Union
 
 
 def getmask(width: int):
@@ -48,7 +48,7 @@ class MetaRegister:
     def __len__(self):
         pass
 
-    def __getitem__(self, obj, sl: int | slice):
+    def __getitem__(self, obj, sl: Union[int, slice]):
         """Extract a field from a register
 
         Get a slice of this register, this is only callable from subclasses
@@ -86,7 +86,7 @@ class MetaRegister:
         val = self.__get__(obj)
         return mask & (val >> sl.start)
 
-    def __setitem__(self, obj, sl: int | slice, val: int):
+    def __setitem__(self, obj, sl: Union[int,slice], val: int):
         """Sets a field to a given value, see `MetaRegister.__get__`
 
         Parameters
@@ -312,7 +312,7 @@ class Field(MetaRegister):
     ```
     """
 
-    def __init__(self, parentfunc, sl: slice | int):
+    def __init__(self, parentfunc, sl: Union[slice, int]):
         self.parentfunc = parentfunc
         self.sl = sl
 
@@ -353,7 +353,7 @@ class FieldEnum(Field):
     ```
     """
 
-    def __init__(self, parentfunc, sl: slice | int, enum: Type[enum.Enum]):
+    def __init__(self, parentfunc, sl: Union[slice, int], enum: Type[enum.Enum]):
         super().__init__(parentfunc, sl)
         self.enum = enum
 
@@ -401,14 +401,14 @@ class FieldBool(Field):
         super().__set__(obj, int(val))
 
 
-def field(bits: slice | int, reg: Optional[Type[MetaRegister]] = None):
+def field(bits: Union[slice, int], reg: Optional[Type[MetaRegister]] = None):
     """Decorator for creating a field from a register and a slice, see `Field`"""
     if reg is not None:
         return Field(lambda _: reg, bits)
     return lambda regfunc: Field(regfunc, bits)
 
 
-def field_enum(bits: slice | int, enum, reg: Optional[Type[MetaRegister]] = None):
+def field_enum(bits: Union[slice,int], enum, reg: Optional[Type[MetaRegister]] = None):
     """Decorator for creating a field from a register, slice, and enum, see `FieldEnum`"""
     if reg is not None:
         return FieldEnum(lambda _: reg, bits, enum)

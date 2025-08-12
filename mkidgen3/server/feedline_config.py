@@ -5,7 +5,7 @@ from hashlib import md5
 import copy
 from mkidgen3.util import convert_freq_to_ddc_bins
 from logging import getLogger
-
+from typing import Union
 
 
 
@@ -434,7 +434,7 @@ class _FLMetaconfigMixin:
 class BitstreamConfig(_FLConfigMixin):
     _settings = ('bitstream', 'ignore_version')
 
-    def __init__(self, bitstream: str | None = None, ignore_version: bool | None = None, _hashed=None):
+    def __init__(self, bitstream: Union[str, None] = None, ignore_version: Union[bool, None] = None, _hashed=None):
         """
         Args:
             bitstream: bitstream file name (full path)
@@ -451,7 +451,7 @@ class BitstreamConfig(_FLConfigMixin):
 class RFDCClockingConfig(_FLConfigMixin):
     _settings = ('programming_key', 'clock_source')
 
-    def __init__(self, programming_key: str | None = None, clock_source: str | None = None, _hashed=None):
+    def __init__(self, programming_key: Union[str, None] = None, clock_source: Union[str, None] = None, _hashed=None):
         """
         Args:
             programming_key: RFDC LMX / LMK programming files
@@ -468,7 +468,7 @@ class RFDCClockingConfig(_FLConfigMixin):
 class RFDCConfig(_FLConfigMixin):
     _settings = ('dac_mts', 'adc_mts', 'adc_gains', 'dac_gains')
 
-    def __init__(self, dac_mts: bool | None = None, adc_mts: bool | None = None, adc_gains: (float, float) = None,
+    def __init__(self, dac_mts: Union[bool, None] = None, adc_mts: Union[bool,None] = None, adc_gains: (float, float) = None,
                  dac_gains: (bool, bool) = None, _hashed=None):
         """
         Args:
@@ -510,7 +510,7 @@ class IFConfig(_FLConfigMixin):
 class TriggerConfig(_FLConfigMixin):
     _settings = ('holdoffs', 'thresholds')
 
-    def __init__(self, holdoffs: np.ndarray | list = None, thresholds: np.ndarray | list = None, _hashed=None):
+    def __init__(self, holdoffs: Union[np.ndarray, list] = None, thresholds: Union[np.ndarray, list] = None, _hashed=None):
         """ See drivers.PhotonTrigger for notes on what these values should be"""
         self._hashed = _hashed
         if self._hashed:

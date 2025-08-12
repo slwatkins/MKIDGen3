@@ -2,6 +2,7 @@ import re
 import importlib.resources
 from logging import getLogger
 from mkidgen3.mkidpynq import get_board_name
+from typing import Union
 
 _clock_reference = None
 _source = None
@@ -53,7 +54,7 @@ def _patch_xrfclk_lmk():
             xrfclk.xrfclk._Config[clock_part][programming_key] = _parse_ticspro(tpro_file)
 
 
-def configure(programming_key: str | None = None, clock_source: str| None = None):
+def configure(programming_key: Union[str, None] = None, clock_source: Union[str, None] = None):
     """
 
     Args:

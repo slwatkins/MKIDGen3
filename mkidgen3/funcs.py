@@ -102,7 +102,7 @@ def find_relative_amplitudes(if_attenuations):
     return db2lin(-if_attenuations) / db2lin(-if_attenuations).max()
 
 
-def quantize_frequencies(freqs: Iterable[float | int], rate: float = 4.096e9, n_samples: int = DAC_LUT_SIZE) -> \
+def quantize_frequencies(freqs: Iterable[Union[float,int]], rate: float = 4.096e9, n_samples: int = DAC_LUT_SIZE) -> \
         Iterable[float]:
     """
     Quantize frequencies to nearest available value give the sample rate and number of samples.
@@ -135,9 +135,9 @@ def predict_quantization_error(resolution: int = DAC_RESOLUTION, signed: bool = 
     return (max_val - min_val) / 2 ** resolution
 
 
-def quantize_to_int(x: Iterable[float | int] | int, resolution: int = DAC_RESOLUTION, signed: bool = True,
+def quantize_to_int(x: Union[Iterable[Union[float, int]], int], resolution: int = DAC_RESOLUTION, signed: bool = True,
                     word_length: bool = ADC_DAC_INTERFACE_WORD_LENGTH,
-                    dyn_range: float = 1.0, return_error: bool = True) -> nt.NDArray[int | np.complex64]:
+                    dyn_range: float = 1.0, return_error: bool = True) -> nt.NDArray[Union[int, np.complex64]]:
     """
     Scale and quantize values to integers.
     Args:
@@ -194,7 +194,7 @@ def complex_scale(z, max_val):
     return max_val * z / input_max
 
 
-def uniform_freqs(n_channels: int = N_CHANNELS, bandwidth:float | int = SYSTEM_BANDWIDTH, offset: float | int = 0.5e6) -> np.ndarray:
+def uniform_freqs(n_channels: int = N_CHANNELS, bandwidth:Union[float, int] = SYSTEM_BANDWIDTH, offset: Union[float, int] = 0.5e6) -> np.ndarray:
     """
     Returns a list of frequencies corresponding to one per DDC channel, evenly spaced in the bandwidth.
     Args:

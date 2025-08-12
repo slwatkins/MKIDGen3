@@ -4,10 +4,11 @@ import numpy.typing as nt
 import numpy as np
 from mkidgen3.system_parameters import ADC_DAC_INTERFACE_WORD_LENGTH, DAC_RESOLUTION, DAC_LUT_SIZE, N_CHANNELS, \
     SYSTEM_BANDWIDTH, IF_ATTN_STEP, ADC_MAX_V, PHASE_FRACTIONAL_BITS
+from typing import Union
 
 
 class Component:
-    def __init__(self, name: str | None, gain: float):
+    def __init__(self, name: Union[str, None], gain: float):
         self.name = name
         self._gain = gain
 
@@ -194,8 +195,8 @@ def calculate_adc_dac_attn(dac_output_power: float, device_power: float, signal_
 
 
 def compute_power_sweep_attenuations(dac_attn_start: float, adc_attn_start: float,
-                                     dac_attn_stop: float | None = None, points: int | None = None,
-                                     step_size=IF_ATTN_STEP) -> list[tuple[float | int, float | int]]:
+                                     dac_attn_stop: Union[float, None] = None, points: Union[int, None] = None,
+                                     step_size=IF_ATTN_STEP) -> list[tuple[Union[float, int], Union[float, int]]]:
     """
     Args:
         dac_attn_start: starting dac attenuation [dB]
@@ -257,7 +258,7 @@ def get_iq_point(ol, n=256):
     del x
     return tmp[0, 0] + 1j * tmp[0, 1]
 
-def compute_lo_steps(center: float | int, resolution: float | int, bandwidth: float | int) -> nt.NDArray[float | int]:
+def compute_lo_steps(center: Union[float, int], resolution: Union[float, int], bandwidth: Union[float, int]) -> nt.NDArray[Union[float, int]]:
     """
     Compute LO steps.
     Args:
