@@ -9,7 +9,7 @@ from mkidgen3.opfb import opfb_bin_number, opfb_bin_center
 import numpy.typing as nt
 from mkidgen3.system_parameters import (OPFB_CHANNEL_SAMPLE_RATE, ADC_SAMPLE_RATE, N_OPFB_CHANNELS, DAC_FREQ_MIN,
                                         DAC_FREQ_MAX, DAC_FREQ_RES)
-from typing import Iterable, Union
+from typing import Iterable, Union, Tuple
 import subprocess
 
 
@@ -55,7 +55,7 @@ def compute_max_val(x) -> float:
     return max(x.real.max(), x.imag.max(), np.abs(x.imag.min()), np.abs(x.imag.min()))
 
 
-def rx_power(data: Union[nt.NDArray[np.int32], nt.NDArray[np.complex64]]) -> tuple[float, float, float]:
+def rx_power(data: Union[nt.NDArray[np.int32], nt.NDArray[np.complex64]]) -> Tuple[float, float, float]:
     """
     Compute ADC average power received in milliwatts and dBm and maximum vppd.
     Args:

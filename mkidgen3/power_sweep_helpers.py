@@ -4,7 +4,7 @@ import numpy.typing as nt
 import numpy as np
 from mkidgen3.system_parameters import ADC_DAC_INTERFACE_WORD_LENGTH, DAC_RESOLUTION, DAC_LUT_SIZE, N_CHANNELS, \
     SYSTEM_BANDWIDTH, IF_ATTN_STEP, ADC_MAX_V, PHASE_FRACTIONAL_BITS
-from typing import Union
+from typing import Union, Tuple, List
 
 
 class Component:
@@ -155,7 +155,7 @@ class ROChain:
 
 
 def calculate_adc_dac_attn(dac_output_power: float, device_power: float, signal_chain: ROChain,
-                            adc_input_power: float) -> tuple[float, tuple[float, float]]:
+                            adc_input_power: float) -> Tuple[float, tuple[float, float]]:
     """
     Args:
         dac_output_power: dac output power [dBm]
@@ -196,7 +196,7 @@ def calculate_adc_dac_attn(dac_output_power: float, device_power: float, signal_
 
 def compute_power_sweep_attenuations(dac_attn_start: float, adc_attn_start: float,
                                      dac_attn_stop: Union[float, None] = None, points: Union[int, None] = None,
-                                     step_size=IF_ATTN_STEP) -> list[tuple[Union[float, int], Union[float, int]]]:
+                                     step_size=IF_ATTN_STEP) -> List[Tuple[Union[float, int], Union[float, int]]]:
     """
     Args:
         dac_attn_start: starting dac attenuation [dB]

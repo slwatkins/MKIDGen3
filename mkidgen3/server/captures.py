@@ -938,7 +938,7 @@ class CaptureJob:
         """ Return the last known status of the request """
         return self._status_listener.latest()
 
-    def status_history(self) -> tuple[str]:
+    def status_history(self) -> Tuple[str]:
         """Return a tuple of the status history of the job"""
         return self._status_listener.history()
 
