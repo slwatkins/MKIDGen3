@@ -1,7 +1,7 @@
 import numpy as np
 from mkidgen3.system_parameters import ADC_DAC_INTERFACE_WORD_LENGTH, DAC_RESOLUTION, DAC_LUT_SIZE, N_CHANNELS, \
     SYSTEM_BANDWIDTH, IF_ATTN_STEP, ADC_MAX_V, PHASE_FRACTIONAL_BITS
-from typing import Iterable
+from typing import Iterable, Union
 from mkidgen3.util import ensure_array_or_scalar
 import numpy.typing as nt
 
